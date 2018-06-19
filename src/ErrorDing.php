@@ -41,7 +41,7 @@ class ErrorDing
 
     protected function ding($msg)
     {
-        $dingTalk = new dingTalk($this->config['token']);
+        $dingTalk = new DingTalk($this->config['token']);
         if (isset($this->config['at']) && is_array($this->config['at'])) {
             return $dingTalk->sendTextMessage($msg, $this->config['at']);
         }
