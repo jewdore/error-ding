@@ -29,6 +29,7 @@ class ErrorDing
     public function errorMsg($exception)
     {
         $str = config('app.name') . "发生异常(" . date('Y-m-d H:i:s') . ")：\n";
+        $str .= '主机信息：' . gethostname() . "\n";
         $str .= '错误信息：' . $exception->getMessage() . "\n";
         $str .= '错误类型：' . get_class($exception) . "\n";
         $str .= '错误文件: ' . $exception->getFile() . "\n";
