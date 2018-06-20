@@ -24,7 +24,7 @@ class ErrorDing
             return null;
         }
 
-        if (isset($config_arr['open']) && !$config_arr['open']) {
+        if (isset($config['open']) && !$config['open']) {
             return null;
         }
 
