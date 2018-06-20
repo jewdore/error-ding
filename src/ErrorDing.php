@@ -23,6 +23,11 @@ class ErrorDing
         if (!$config || !isset($config['token'])) {
             return null;
         }
+
+        if (isset($config_arr['open']) && !$config_arr['open']) {
+            return null;
+        }
+
         return new static(config($config_name));
     }
 
@@ -35,6 +40,7 @@ class ErrorDing
         $str .= '错误文件: ' . $exception->getFile() . "\n";
         $str .= '错误行号：' . $exception->getLine() . "\n";
         $str .= '错误代码：' . $exception->getCode() . "\n";
+        $str .= '追踪信息: ' . $exception->getTraceAsString() . "\n";
         return $this->ding($str);
 
     }
