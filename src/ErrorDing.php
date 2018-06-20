@@ -40,10 +40,14 @@ class ErrorDing
         $str .= '错误文件: ' . $exception->getFile() . "\n";
         $str .= '错误行号：' . $exception->getLine() . "\n";
         $str .= '错误代码：' . $exception->getCode() . "\n";
-        $str .= '追踪信息: ' . $exception->getTraceAsString() . "\n";
+
+        if(isset($this->config['error_log']) && is_file($this->config['error_log']) ){
+             file_put_contents($this->config['error_log'],$str.$exception->getTraceAsString(),FILE_APPEND);
+        }
         return $this->ding($str);
 
     }
+
 
     protected function ding($msg)
     {
