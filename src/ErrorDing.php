@@ -28,6 +28,13 @@ class ErrorDing
             return null;
         }
 
+        if(isset($config['env']) && $config['env'] != config('app.env')){
+            return null;
+        }
+        if(!isset($config['env']) && config('app.env') != 'production'){
+            return null;
+        }
+
         return new static(config($config_name));
     }
 
@@ -40,6 +47,7 @@ class ErrorDing
         $str .= '错误文件: ' . $exception->getFile() . "\n";
         $str .= '错误行号：' . $exception->getLine() . "\n";
         $str .= '错误代码：' . $exception->getCode() . "\n";
+        $str .= '环境代码：' . config('app.env', 'unknown'). "\n";
 
         if(isset($this->config['error_log']) && is_file($this->config['error_log']) ){
              file_put_contents($this->config['error_log'],$str.$exception->getTraceAsString(),FILE_APPEND);
