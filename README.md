@@ -3,6 +3,7 @@ laravel 将handler里面的错误消息发送到dingTalk
 
 # 使用方法
 推荐放在larave handler里面的report函数中，（最好是在shouldntReport后面）
+以laravel5.5为例，加入您需要加告警到handler
 
 
 > ` if ($handler = ErrorDing::channel(配置文件路径默认'self.error_handler')) {  `  
