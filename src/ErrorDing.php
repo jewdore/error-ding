@@ -88,7 +88,7 @@ class ErrorDing
     }
 
 
-    protected function ding($msg)
+    public function ding($msg)
     {
         $dingTalk = new DingTalk($this->config['token']);
         if (isset($this->config['at']) && is_array($this->config['at'])) {
