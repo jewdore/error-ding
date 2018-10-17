@@ -8,6 +8,8 @@
 
 namespace Jewdore\ErrorDing;
 
+use Illuminate\Support\Facades\Log;
+
 class ErrorDing
 {
     protected $config = null;
@@ -21,21 +23,31 @@ class ErrorDing
     {
         $config = config($config_name);
         if (!$config || !isset($config['token'])) {
+            Log::info("初始化组件错误：token missing");
             return null;
         }
 
         if (isset($config['open']) && !$config['open']) {
+            Log::info("初始化组件错误：open false");
             return null;
         }
 
         if(isset($config['env']) && $config['env'] != config('app.env')){
+            Log::info("初始化组件错误：env不符合");
             return null;
         }
         if(!isset($config['env']) && config('app.env') != 'production'){
+            Log::info("初始化组件错误：env非生产环境");
             return null;
         }
 
-        return new static(config($config_name));
+        $config['config_name'] = $config_name;
+
+        return new static($config);
+    }
+
+    public function setAt($mobile){
+        $this->config['at'] = $mobile;
     }
 
     public function errorMsg($exception)
@@ -54,6 +66,25 @@ class ErrorDing
         }
         return $this->ding($str);
 
+    }
+
+    public function popUp(\Exception $exception){
+
+        $message = [
+            'file' => $exception->getFile(),
+            'type' => get_class($exception),
+            'line' => $exception->getLine(),
+            'trace' => $exception->getTraceAsString(),
+            'tag' => $this->config['config_name'],
+            'hostname' => gethostname(),
+            'environment' => config('app.name', 'unknown'),
+            'message' => $exception->getMessage(),
+            'at' => isset($this->config['at']) ?$this->config['at'] : ''  ,
+        ];
+
+        Log::info("POPUP发送信息：".json_encode($message));
+
+        return (new Popup($this->config['token']))->sendTextMessage($message);
     }
 
 
