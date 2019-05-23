@@ -82,7 +82,7 @@ class ErrorDing
             'at' => isset($this->config['at']) ?$this->config['at'] : ''  ,
         ];
 
-        $message = array_merge($message, $extra);
+        $message['extra'] = $extra;
 
         Log::info("POPUP发送信息：".json_encode($message));
 
