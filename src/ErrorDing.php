@@ -68,7 +68,7 @@ class ErrorDing
 
     }
 
-    public function popUp(\Exception $exception){
+    public function popUp(\Exception $exception, $extra = []){
 
         $message = [
             'file' => $exception->getFile(),
@@ -81,6 +81,8 @@ class ErrorDing
             'message' => $exception->getMessage(),
             'at' => isset($this->config['at']) ?$this->config['at'] : ''  ,
         ];
+
+        $message = array_merge($message, $extra);
 
         Log::info("POPUP发送信息：".json_encode($message));
 
