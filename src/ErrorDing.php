@@ -68,7 +68,7 @@ class ErrorDing
 
     }
 
-    public function popUp(\Exception $exception, $extra = []){
+    public function popUp(\Exception $exception, $extra = ""){
 
         $message = [
             'file' => $exception->getFile(),
